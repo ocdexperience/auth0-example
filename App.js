@@ -12,8 +12,8 @@ import jwtDecode from 'jwt-decode';
 
   You can open this app in the Expo client and check your logs to find out your redirect URL.
 */
-const auth0ClientId = 'YOUR-CLIENT-ID';
-const auth0Domain = 'https://arielweinberger.eu.auth0.com';
+const auth0ClientId = 'GOlzSdOsOvjOL0jP1f6f79OWEJStxOeb';
+const auth0Domain = 'https://ocdexperience-engineering.auth0.com';
 
 /**
  * Converts an object to a query string.
