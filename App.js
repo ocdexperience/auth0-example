@@ -63,6 +63,8 @@ export default class App extends React.Component {
     // Retrieve the JWT token and decode it
     const jwtToken = response.id_token;
     const decoded = jwtDecode(jwtToken);
+    // Id token format: https://auth0.com/docs/api-auth/tutorials/adoption/api-tokens#access-vs-id-tokens
+    console.log('Id token', JSON.stringify(decoded, null, 2));
 
     const { name } = decoded;
     this.setState({ name });
