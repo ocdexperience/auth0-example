@@ -1,19 +1,19 @@
 import React from "react";
 import { StyleSheet, Text, View, Button, Alert } from "react-native";
 import { AuthSession } from "expo";
+import * as WebBrowser from "expo-web-browser";
 import jwtDecode from "jwt-decode";
 
 /*
   You need to swap out the Auth0 client id and domain with
   the one from your Auth0 client.
   In your Auth0 client, you need to also add a url to your authorized redirect urls.
-  For this application, I added https://auth.expo.io/@arielweinberger/auth0-example because I am
-  signed in as the "community" account on Expo and the slug for this app is "auth0-example" (check out app.json).
 
   You can open this app in the Expo client and check your logs to find out your redirect URL.
 */
 const auth0ClientId = "GOlzSdOsOvjOL0jP1f6f79OWEJStxOeb";
 const auth0Domain = "https://ocdexperience-engineering.auth0.com";
+const returnUrl = "https://www.ocdexperience.com/";
 
 /**
  * Converts an object to a query string.
@@ -30,9 +30,10 @@ function toQueryString(params) {
   );
 }
 
-const AuthenticatedApp = ({ name }) => (
+const AuthenticatedApp = ({ name, logout }) => (
   <View style={styles.container}>
     <Text style={styles.title}>You are logged in, {name}!</Text>
+    <Button title="Log out" onPress={logout} />
   </View>
 );
 
@@ -72,6 +73,22 @@ export default class App extends React.Component {
     }
   };
 
+  logout = async () => {
+    const queryParams = toQueryString({
+      returnTo: returnUrl,
+      client_id: auth0ClientId
+    });
+    const logoutUrl = `${auth0Domain}/v2/logout` + queryParams;
+
+    // Log out
+    const response = await WebBrowser.openBrowserAsync(logoutUrl);
+    console.log("Logout response", response);
+
+    if (response.type === "cancel") {
+      this.setState({ name: null });
+    }
+  };
+
   handleResponse = response => {
     if (response.error) {
       Alert(
@@ -94,7 +111,7 @@ export default class App extends React.Component {
   render() {
     const { name } = this.state;
     return name ? (
-      <AuthenticatedApp name={name} />
+      <AuthenticatedApp name={name} logout={this.logout} />
     ) : (
       <UnauthenticatedApp login={this.login} />
     );
