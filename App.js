@@ -60,11 +60,12 @@ export default class App extends React.Component {
       redirect_uri: redirectUrl,
       response_type: "id_token", // id_token will return a JWT token
       scope: "openid profile", // retrieve the user's profile
-      nonce: "nonce" // ideally, this will be a random value
+      nonce: Math.random().toString(36) // ideally, this will be a random value
     });
     const authUrl = `${auth0Domain}/authorize` + queryParams;
 
     // Perform the authentication
+    console.log("Authentication request")
     const response = await AuthSession.startAsync({ authUrl });
     console.log("Authentication response", response);
 
