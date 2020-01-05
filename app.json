@@ -3,7 +3,7 @@
     "name": "auth0-example",
     "slug": "auth0-example",
     "privacy": "public",
-    "sdkVersion": "35.0.0",
+    "sdkVersion": "36.0.0",
     "platforms": [
       "ios",
       "android"
@@ -24,6 +24,7 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "scheme": "auth0-example"
   }
 }
